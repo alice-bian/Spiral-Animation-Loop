@@ -349,6 +349,38 @@ def setup_scene(i=0):
 # helper functions END
 ################################################################
 
+def animate_rotation(context, ring_obj, rot_y, rot_z):
+    # set starting y rotation for each ring
+    degrees = rot_y
+    radians = math.radians(degrees)
+    ring_obj.rotation_euler.y = radians
+
+    # set starting z rotation for each ring
+    degrees = rot_z
+    radians = math.radians(degrees)
+    ring_obj.rotation_euler.z = radians
+
+    # save starting keyframe for rotation
+    start_frame = 1
+    bpy.context.object.keyframe_insert("rotation_euler", frame=start_frame)
+
+    # set ending y rotation for each ring
+    degrees = rot_y + 360
+    radians = math.radians(degrees)
+    ring_obj.rotation_euler.y = radians
+
+    # set ending z rotation for each ring
+    degrees = rot_z + 360 * 2
+    radians = math.radians(degrees)
+    ring_obj.rotation_euler.z = radians
+
+    # save ending keyframe for rotation
+    end_frame = context["frame_count"] + 1
+    bpy.context.object.keyframe_insert("rotation_euler", frame=end_frame)
+
+    # create linear transition from end to start in animation loop
+    make_fcurves_linear()
+
 
 def create_ring(curr_radius, index, ring_material):
     # create circle mesh
@@ -381,6 +413,9 @@ def create_centerpiece(context):
     for i in range(num_rings):
         curr_radius = radius_step * i
         ring_obj = create_ring(curr_radius, i, ring_material)
+        
+        animate_rotation(context, ring_obj, rot_y, rot_z)
+        rot_z += rot_z_step
 
 
 def main():
