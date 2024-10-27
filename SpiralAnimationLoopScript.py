@@ -12,15 +12,12 @@ import bpy
 def purge_orphans():
     """
     Remove all orphan data blocks
-
-    see this from more info:
-    https://youtu.be/3rNqVPtbhzc?t=149
     """
     if bpy.app.version >= (3, 0, 0):
-        # run this only for Blender versions 3.0 and higher
+        # only for Blender versions 3.0 and higher
         bpy.ops.outliner.orphans_purge(do_local_ids=True, do_linked_ids=True, do_recursive=True)
     else:
-        # run this only for Blender versions lower than 3.0
+        # only for Blender versions lower than 3.0
         # call purge_orphans() recursively until there are no more orphan data blocks to purge
         result = bpy.ops.outliner.orphans_purge()
         if result.pop() != "CANCELLED":
@@ -31,11 +28,6 @@ def clean_scene():
     """
     Removing all of the objects, collection, materials, particles,
     textures, images, curves, meshes, actions, nodes, and worlds from the scene
-
-    Checkout this video explanation with example
-
-    "How to clean the scene with Python in Blender (with examples)"
-    https://youtu.be/3rNqVPtbhzc
     """
     # make sure the active object is not in Edit Mode
     if bpy.context.active_object and bpy.context.active_object.mode == "EDIT":
@@ -91,7 +83,6 @@ def time_seed():
 
 
 def add_ctrl_empty(name=None):
-
     bpy.ops.object.empty_add(type="PLAIN_AXES", align="WORLD")
     empty_ctrl = active_object()
 
@@ -319,10 +310,10 @@ def setup_scene(i=0):
     loop_seconds = 12
     frame_count = fps * loop_seconds
 
-    project_name = "ring_loop"
+    project_name = "SpiralAnimationLoop"
     bpy.context.scene.render.image_settings.file_format = "FFMPEG"
     bpy.context.scene.render.ffmpeg.format = "MPEG4"
-    bpy.context.scene.render.filepath = f"/tmp/project_{project_name}/loop_{i}.mp4"
+    bpy.context.scene.render.filepath = f"/Users/BIANA025/Documents/Coding Projects/Blender Plug-Ins/{project_name}/loop_{i}.mp4"
 
     seed = 0
     if seed:
@@ -334,8 +325,8 @@ def setup_scene(i=0):
     clean_scene()
     set_scene_props(fps, loop_seconds)
 
-    loc = (20, -20, 12)
-    rot = (math.radians(60), 0, math.radians(70))
+    loc = (0, -30, 6.5)
+    rot = (math.radians(75), 0, 0)
     setup_camera(loc, rot)
 
     context = {
