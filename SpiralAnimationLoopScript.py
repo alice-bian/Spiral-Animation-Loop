@@ -350,8 +350,37 @@ def setup_scene(i=0):
 ################################################################
 
 
+def create_ring(curr_radius, index, ring_material):
+    # create circle mesh
+    bpy.ops.mesh.primitive_circle_add(vertices=128, radius=curr_radius)
+    
+    # set active object and organize outliner
+    ring_obj = bpy.context.active_object
+    ring_obj.name = f"ring.{index}"
+    
+    # set parameters for ring
+    bpy.ops.object.convert(target='CURVE')
+    ring_obj.data.bevel_depth = 0.05
+    ring_obj.data.bevel_resolution = 16
+    bpy.ops.object.shade_smooth()
+    
+    # apply ring material
+    apply_material(ring_material)
+    
+    return ring_obj
+
+
 def create_centerpiece(context):
-    pass
+    num_rings = 50
+    radius_step = 0.1
+    ring_material = create_metal_ring_material()
+    rot_y = 30
+    rot_z = 0
+    rot_z_step = 10
+    
+    for i in range(num_rings):
+        curr_radius = radius_step * i
+        ring_obj = create_ring(curr_radius, i, ring_material)
 
 
 def main():
