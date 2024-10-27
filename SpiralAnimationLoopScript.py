@@ -289,11 +289,11 @@ def set_scene_props(fps, loop_seconds):
 
     scene.render.engine = "CYCLES"
 
-    # Use the GPU to render
+    # use the GPU to render
     # scene.cycles.device = 'GPU'
     # scene.cycles.samples = 1024
 
-    # Use the CPU to render
+    # use the CPU to render
     scene.cycles.device = "CPU"
     scene.cycles.samples = 200
 
@@ -306,14 +306,14 @@ def set_scene_props(fps, loop_seconds):
 
 
 def setup_scene(i=0):
-    fps = 30
-    loop_seconds = 12
+    fps = 24
+    loop_seconds = 3
     frame_count = fps * loop_seconds
 
-    project_name = "SpiralAnimationLoop"
+    project_name = "ring_loop"
     bpy.context.scene.render.image_settings.file_format = "FFMPEG"
     bpy.context.scene.render.ffmpeg.format = "MPEG4"
-    bpy.context.scene.render.filepath = f"/Users/BIANA025/Documents/Coding Projects/Blender Plug-Ins/{project_name}/loop_{i}.mp4"
+    bpy.context.scene.render.filepath = f"/tmp/project_{project_name}/loop_{i}.mp4"
 
     seed = 0
     if seed:
@@ -321,7 +321,7 @@ def setup_scene(i=0):
     else:
         time_seed()
 
-    # Utility Building Blocks
+    # utility building blocks
     clean_scene()
     set_scene_props(fps, loop_seconds)
 
